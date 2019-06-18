@@ -5,6 +5,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D3DB5CA3-539
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreRateLimitDemo", "src\AspNetCoreRateLimitDemo\AspNetCoreRateLimitDemo.csproj", "{3F73C5CF-DD50-4D5F-8955-01FEB535F5E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniProfilerDemo", "src\MiniProfilerDemo\MiniProfilerDemo.csproj", "{209CE8B4-E5F5-43BF-972C-A7230DBA595D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,13 @@ Global
 		{3F73C5CF-DD50-4D5F-8955-01FEB535F5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F73C5CF-DD50-4D5F-8955-01FEB535F5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F73C5CF-DD50-4D5F-8955-01FEB535F5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209CE8B4-E5F5-43BF-972C-A7230DBA595D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209CE8B4-E5F5-43BF-972C-A7230DBA595D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209CE8B4-E5F5-43BF-972C-A7230DBA595D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209CE8B4-E5F5-43BF-972C-A7230DBA595D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3F73C5CF-DD50-4D5F-8955-01FEB535F5E1} = {D3DB5CA3-5399-461A-BEBE-32C1F6709367}
+		{209CE8B4-E5F5-43BF-972C-A7230DBA595D} = {D3DB5CA3-5399-461A-BEBE-32C1F6709367}
 	EndGlobalSection
 EndGlobal
