@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MiniProfilerDemo.Models;
 using StackExchange.Profiling;
 
@@ -11,10 +12,23 @@ namespace MiniProfilerDemo.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly Lazy<BloggingContext> _bloggingContext;
+        public BloggingContext BloggingContext => _bloggingContext.Value;
+
+        public HomeController(Lazy<BloggingContext> bloggingContext)
         {
+            _bloggingContext = bloggingContext;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            using (MiniProfiler.Current.Step("第1.1步"))
+            {
+                await BloggingContext.Blogs.ToListAsync();
+            }
+
             // 分析代码段
-            return MiniProfiler.Current.Inline<IActionResult>(() => { return View(); }, "第1.1步");
+            return MiniProfiler.Current.Inline<IActionResult>(() => View(), "第1.2步");
         }
 
         public IActionResult Privacy()
