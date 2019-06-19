@@ -21,7 +21,7 @@ namespace IdSrv4Demo
         public void ConfigureServices(IServiceCollection services)
         {
             // uncomment, if you wan to add an MVC-based UI
-            //services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
             var builder = services
                                 .AddIdentityServer()
@@ -49,17 +49,12 @@ namespace IdSrv4Demo
             }
 
             // uncomment if you want to support static files
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
 
             app.UseIdentityServer();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
-
             // uncomment, if you wan to add an MVC-based UI
-            //app.UseMvcWithDefaultRoute();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
