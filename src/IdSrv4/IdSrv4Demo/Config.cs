@@ -26,6 +26,7 @@
 using System.Collections.Generic;
 
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 namespace IdSrv4Demo
 {
@@ -50,22 +51,59 @@ namespace IdSrv4Demo
         public static IEnumerable<Client> GetClients()
         {
             return new Client[] {
-                new Client{
-                    ClientId = "client",
 
-                    // no interactive user, use the clientid/secret for authentication
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                #region ClientCredentials
+                    new Client{
+                        ClientId = "client",
 
-                    // secret for authentication
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
+                        // no interactive user, use the clientid/secret for authentication
+                        AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                        // secret for authentication
+                        ClientSecrets =
+                        {
+                            new Secret("secret".Sha256())
+                        },
+
+                        // scopes that client has access to
+                        AllowedScopes = { "IdSrv4Demo.Api" }
                     },
+                #endregion
 
-                    // scopes that client has access to
-                    AllowedScopes = { "IdSrv4Demo.Api" }
-                }
+                #region ResourceOwnerPassword
+                    new Client
+                    {
+                        ClientId = "ro.client",
+                        AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
+                        ClientSecrets =
+                        {
+                            new Secret("secret".Sha256())
+                        },
+                        // scopes that client has access to
+                        AllowedScopes = { "IdSrv4Demo.Api" }
+                    }
+                #endregion
             };
+        }
+
+        public static List<TestUser> GetUsers()
+        {
+            return new List<TestUser>
+                {
+                    new TestUser
+                    {
+                        SubjectId = "1",
+                        Username = "alice",
+                        Password = "alice"
+                    },
+                    new TestUser
+                    {
+                        SubjectId = "2",
+                        Username = "bob",
+                        Password = "bob"
+                    }
+                };
         }
     }
 }

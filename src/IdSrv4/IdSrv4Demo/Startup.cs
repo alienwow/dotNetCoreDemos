@@ -23,10 +23,12 @@ namespace IdSrv4Demo
             // uncomment, if you wan to add an MVC-based UI
             //services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
-            var builder = services.AddIdentityServer()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients());
+            var builder = services
+                                .AddIdentityServer()
+                                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                                .AddInMemoryApiResources(Config.GetApis())
+                                .AddInMemoryClients(Config.GetClients())
+                                .AddTestUsers(Config.GetUsers());
 
             if (Environment.IsDevelopment())
             {
