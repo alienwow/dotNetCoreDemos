@@ -35,18 +35,37 @@ namespace IdSrv4Demo
         {
             return new IdentityResource[]
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile()
             };
         }
 
         public static IEnumerable<ApiResource> GetApis()
         {
-            return new ApiResource[] { };
+            return new ApiResource[] {
+                new ApiResource("IdSrv4Demo.Api", "My API")
+            };
         }
 
         public static IEnumerable<Client> GetClients()
         {
-            return new Client[] { };
+            return new Client[] {
+                new Client{
+                    ClientId = "client",
+
+                    // no interactive user, use the clientid/secret for authentication
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    // secret for authentication
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
+                    // scopes that client has access to
+                    AllowedScopes = { "IdSrv4Demo.Api" }
+                }
+            };
         }
     }
 }
