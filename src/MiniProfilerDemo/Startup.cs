@@ -21,11 +21,13 @@ namespace MiniProfilerDemo
         }
 
         public IConfiguration Configuration { get; }
+        public GlobalConfigs GlobalConfigs;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var globalConfigs = Configuration.Get<GlobalConfigs>();
+            GlobalConfigs = Configuration.Get<GlobalConfigs>();
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -38,7 +40,7 @@ namespace MiniProfilerDemo
             services.AddTransient(typeof(Lazy<>));
             services.AddDbContext<BloggingContext>(options =>
             {
-                options.UseSqlite(globalConfigs.ConnectionString);
+                options.UseSqlite(GlobalConfigs.ConnectionString);
             }, ServiceLifetime.Scoped);
 
             // MiniProfiler
@@ -52,9 +54,11 @@ namespace MiniProfilerDemo
                 // /profiler/results-list
                 options.RouteBasePath = "/profiler";
 
-                // (Optional) Control storage
-                // (default is 30 minutes in MemoryCacheStorage)
-                (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
+                options.Storage = new SqliteStorage(GlobalConfigs.ConnectionString);
+
+                //// (Optional) Control storage
+                //// (default is 30 minutes in MemoryCacheStorage)
+                //(options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
 
                 // (Optional) Control which SQL formatter to use, InlineFormatter is the default
                 options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
@@ -90,7 +94,12 @@ namespace MiniProfilerDemo
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, BloggingContext bloggingContext)
         {
             // generate db
-            bloggingContext.Database.EnsureCreated();
+            if (bloggingContext.Database.EnsureCreated())
+            {
+                // generate MiniProfiler tables
+                var sqlScripts = new SqliteStorage(GlobalConfigs.ConnectionString).TableCreationScripts;
+                bloggingContext.Database.ExecuteSqlCommand(string.Join(Environment.NewLine, sqlScripts));
+            }
 
             if (env.IsDevelopment())
             {
