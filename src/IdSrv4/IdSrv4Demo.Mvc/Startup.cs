@@ -1,5 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,11 +40,22 @@ namespace IdSrv4Demo.Mvc
                     .AddCookie("Cookies")
                     .AddOpenIdConnect("oidc", options =>
                     {
+                        options.SignInScheme = "Cookies";
+
                         options.Authority = "https://localhost:7001";
                         options.RequireHttpsMetadata = false;
 
                         options.ClientId = "mvc";
+                        options.ClientSecret = "secret";
+                        options.ResponseType = "code id_token";
+
                         options.SaveTokens = true;
+                        options.GetClaimsFromUserInfoEndpoint = true;
+
+                        options.Scope.Add("IdSrv4Demo.Api");
+                        options.Scope.Add("offline_access");
+                        options.ClaimActions.MapJsonKey("website", "website");
+                        //options.ClaimActions.MapJsonKey("role", "role");
                     });
         }
 

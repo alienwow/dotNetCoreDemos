@@ -69,57 +69,107 @@ namespace IdSrv4Demo
             return new Client[] {
 
                 #region ClientCredentials
-                    new Client{
-                        ClientId = "client",
+                new Client{
+                    ClientId = "client",
 
-                        // no interactive user, use the clientid/secret for authentication
-                        AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    // no interactive user, use the clientid/secret for authentication
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
 
-                        // secret for authentication
-                        ClientSecrets =
-                        {
-                            new Secret("secret".Sha256())
-                        },
-
-                        // scopes that client has access to
-                        AllowedScopes = { "IdSrv4Demo.Api" }
+                    // secret for authentication
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
                     },
+
+                    // scopes that client has access to
+                    AllowedScopes = { "IdSrv4Demo.Api" }
+                },
                 #endregion
                     
                 #region ResourceOwnerPassword
-                    new Client
-                    {
-                        ClientId = "ro.client",
-                        AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                new Client
+                {
+                    ClientId = "ro.client",
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
-                        ClientSecrets =
-                        {
-                            new Secret("secret".Sha256())
-                        },
-                        // scopes that client has access to
-                        AllowedScopes = { "IdSrv4Demo.Api" }
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
                     },
+                    // scopes that client has access to
+                    AllowedScopes = { "IdSrv4Demo.Api" }
+                },
                 #endregion
                         
                 #region Implicit
-                    new Client
+                //new Client
+                //{
+                //    ClientId = "mvc",
+                //    ClientName = "MVC Client",
+                //    AllowedGrantTypes = GrantTypes.Implicit,
+
+                //    // where to redirect to after login
+                //    RedirectUris = { "https://localhost:5002/signin-oidc" },
+
+                //    // where to redirect to after logout
+                //    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+
+                //    AllowedScopes = new List<string>
+                //    {
+                //        IdentityServerConstants.StandardScopes.OpenId,
+                //        IdentityServerConstants.StandardScopes.Profile
+                //    }
+                //},
+                #endregion
+
+                #region Hybrid
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientName = "MVC Client",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+
+                    ClientSecrets =
                     {
-                        ClientId = "mvc",
-                        ClientName = "MVC Client",
-                        AllowedGrantTypes = GrantTypes.Implicit,
+                        new Secret("secret".Sha256())
+                    },
+                        
+                    // where to redirect to after login
+                    RedirectUris = { "https://localhost:5002/signin-oidc" },
 
-                        // where to redirect to after login
-                        RedirectUris = { "https://localhost:5002/signin-oidc" },
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
 
-                        // where to redirect to after logout
-                        PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "IdSrv4Demo.Api"
+                    },
+                    AllowOfflineAccess = true
+                },
+                #endregion
+                
+                #region js
+                new Client
+                {
+                    ClientId = "js",
+                    ClientName = "JavaScript Client",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
 
-                        AllowedScopes = new List<string>
-                        {
-                            IdentityServerConstants.StandardScopes.OpenId,
-                            IdentityServerConstants.StandardScopes.Profile
-                        }
+                    RedirectUris =           { "https://localhost:5007/callback.html" },
+                    PostLogoutRedirectUris = { "https://localhost:5007/index.html" },
+                    AllowedCorsOrigins =     { "https://localhost:5007" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "IdSrv4Demo.Api"
                     }
+                }
                 #endregion
             };
         }

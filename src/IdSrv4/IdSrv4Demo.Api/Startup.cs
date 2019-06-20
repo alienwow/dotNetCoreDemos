@@ -30,8 +30,19 @@ namespace IdSrv4Demo.Api
                     {
                         options.Authority = "https://localhost:7001";
                         options.RequireHttpsMetadata = false;
+
                         options.Audience = "IdSrv4Demo.Api";
                     });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("*")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +59,8 @@ namespace IdSrv4Demo.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("default");
 
             app.UseAuthentication();
 
