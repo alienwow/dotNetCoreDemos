@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System.Collections.Generic;
 using System.Security.Claims;
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
@@ -33,6 +34,19 @@ namespace IdSrv4Demo
 {
     public static class Config
     {
+
+        private readonly static ICollection<string> RequiredUserClaims =
+            new string[] {
+                        JwtClaimTypes.Id,
+                        JwtClaimTypes.Role,
+                        JwtClaimTypes.PhoneNumber,
+                        JwtClaimTypes.Email,
+                        JwtClaimTypes.Name,
+                        JwtClaimTypes.Gender,
+                        JwtClaimTypes.Picture
+                    };
+
+
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new IdentityResource[]
@@ -45,7 +59,8 @@ namespace IdSrv4Demo
         public static IEnumerable<ApiResource> GetApis()
         {
             return new ApiResource[] {
-                new ApiResource("IdSrv4Demo.Api", "My API")
+                //new ApiResource("IdSrv4Demo.Api", "My API")
+                 new ApiResource("IdSrv4Demo.Api", "My API", RequiredUserClaims)
             };
         }
 
@@ -122,7 +137,8 @@ namespace IdSrv4Demo
                             Claims = new []
                             {
                                 new Claim("name", "Alice"),
-                                new Claim("website", "https://alice.com")
+                                new Claim("website", "https://alice.com"),
+                                new Claim(JwtClaimTypes.Role,"admin")
                             }
                         },
                         new TestUser
@@ -134,7 +150,8 @@ namespace IdSrv4Demo
                             Claims = new []
                             {
                                 new Claim("name", "Bob"),
-                                new Claim("website", "https://bob.com")
+                                new Claim("website", "https://bob.com"),
+                                new Claim(JwtClaimTypes.Role,"general")
                             }
                         }
                     };

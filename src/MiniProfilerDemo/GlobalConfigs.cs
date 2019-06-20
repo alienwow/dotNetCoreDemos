@@ -28,5 +28,7 @@ namespace MiniProfilerDemo
     public class GlobalConfigs
     {
         public string ConnectionString { get; set; }
+
+        public string ConnectionStringMySql { get; set; }
     }
 }

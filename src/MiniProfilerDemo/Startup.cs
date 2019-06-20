@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using StackExchange.Profiling;
+using StackExchange.Profiling.SqlFormatters;
 using StackExchange.Profiling.Storage;
 
 namespace MiniProfilerDemo
@@ -28,7 +30,6 @@ namespace MiniProfilerDemo
         {
             GlobalConfigs = Configuration.Get<GlobalConfigs>();
 
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -43,6 +44,23 @@ namespace MiniProfilerDemo
                 options.UseSqlite(GlobalConfigs.ConnectionString);
             }, ServiceLifetime.Scoped);
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = "Cookies";
+                        options.DefaultChallengeScheme = "oidc";
+                    })
+                    .AddCookie("Cookies")
+                    .AddOpenIdConnect("oidc", options =>
+                    {
+                        options.Authority = "https://localhost:7001";
+                        options.RequireHttpsMetadata = false;
+
+                        options.ClientId = "mvc";
+                        options.SaveTokens = true;
+                    });
+
             // MiniProfiler
             services.AddMiniProfiler(options =>
             {
@@ -54,14 +72,17 @@ namespace MiniProfilerDemo
                 // /profiler/results-list
                 options.RouteBasePath = "/profiler";
 
-                options.Storage = new SqliteStorage(GlobalConfigs.ConnectionString);
+                // TODO 使用 SqliteStorage 后端接口异常，待解决
+                //options.Storage = new SqliteStorage(GlobalConfigs.ConnectionString);
+                // TODO 使用 MySqlStorage 前端js异常，待解决
+                //options.Storage = new MySqlStorage(GlobalConfigs.ConnectionStringMySql);
 
                 //// (Optional) Control storage
                 //// (default is 30 minutes in MemoryCacheStorage)
                 //(options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(60);
 
                 // (Optional) Control which SQL formatter to use, InlineFormatter is the default
-                options.SqlFormatter = new StackExchange.Profiling.SqlFormatters.InlineFormatter();
+                options.SqlFormatter = new InlineFormatter();
 
                 //// (Optional) To control authorization, you can use the Func<HttpRequest, bool> options:
                 //// (default is everyone can access profilers)
@@ -86,6 +107,12 @@ namespace MiniProfilerDemo
 
                 options.PopupRenderPosition = RenderPosition.BottomLeft;
                 options.PopupShowTimeWithChildren = true;
+
+                //options.ResultsAuthorize = request => request.HttpContext.User.IsInRole("admin");
+                // TODO 目前 Implicit 认证模式下无法添加 claim
+                options.ResultsAuthorize = request => request.HttpContext.User.HasClaim("name", "Alice");
+                //.Claims.SingleOrDefault(x => x.Type == "name" && x.Value == "Alices") != null;
+                options.UserIdProvider = request => request.HttpContext.User.Identity.Name;
 
             }).AddEntityFramework();
         }
@@ -113,6 +140,7 @@ namespace MiniProfilerDemo
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 

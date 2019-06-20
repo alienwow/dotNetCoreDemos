@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using MiniProfilerDemo.Models;
+
 using StackExchange.Profiling;
 
 namespace MiniProfilerDemo.Controllers
@@ -31,6 +33,7 @@ namespace MiniProfilerDemo.Controllers
             return MiniProfiler.Current.Inline<IActionResult>(() => View(), "第1.2步");
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             // 分析代码段 多层嵌套
@@ -39,6 +42,11 @@ namespace MiniProfilerDemo.Controllers
                 Console.WriteLine("test");
                 return MiniProfiler.Current.Inline<IActionResult>(() => { return View(); }, "第1.1.1步");
             }
+        }
+
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies", "oidc");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

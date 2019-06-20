@@ -30,5 +30,6 @@ namespace IdSrv4Demo.Mvc.Controllers
         {
             return SignOut("Cookies", "oidc");
         }
+
     }
 }
