@@ -23,7 +23,10 @@ namespace IdSrv4Demo
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_2);
 
             var builder = services
-                                .AddIdentityServer()
+                                .AddIdentityServer(options =>
+                                {
+                                    options.Discovery.CustomEntries.Add("local_api", "~/localapi");
+                                })
                                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                                 .AddInMemoryApiResources(Config.GetApis())
                                 .AddInMemoryClients(Config.GetClients())
@@ -37,6 +40,8 @@ namespace IdSrv4Demo
             {
                 throw new Exception("need to configure key material");
             }
+
+            services.AddLocalApiAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

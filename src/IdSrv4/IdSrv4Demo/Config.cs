@@ -25,10 +25,46 @@
 // THE SOFTWARE.
 using System.Collections.Generic;
 using System.Security.Claims;
+
 using IdentityModel;
+
 using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+
+
+public static class CustomIdentityServerConstants
+{
+    public static class CustomScopes
+    {
+        public const string Role = "role";
+    }
+}
+
+public static class CustomIdentityResources
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="IdentityServer4.Models.IdentityResource" />
+    public class Role : IdentityResource
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Role"/> class.
+        /// </summary>
+        public Role()
+        {
+            Name = CustomIdentityServerConstants.CustomScopes.Role;
+            DisplayName = "Your role";
+            Description = "Your account role information (admin, general, etc.)";
+            Emphasize = true;
+            UserClaims = new List<string>()
+                        {
+                            "role"
+                        };
+        }
+    }
+}
 
 namespace IdSrv4Demo
 {
@@ -52,15 +88,16 @@ namespace IdSrv4Demo
             return new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new CustomIdentityResources.Role()
             };
         }
 
         public static IEnumerable<ApiResource> GetApis()
         {
             return new ApiResource[] {
-                //new ApiResource("IdSrv4Demo.Api", "My API")
-                 new ApiResource("IdSrv4Demo.Api", "My API", RequiredUserClaims)
+                 new ApiResource("IdSrv4Demo.Api", "My API"),
+                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
             };
         }
 
@@ -97,57 +134,58 @@ namespace IdSrv4Demo
                         new Secret("secret".Sha256())
                     },
                     // scopes that client has access to
-                    AllowedScopes = { "IdSrv4Demo.Api" }
+                    AllowedScopes = { "IdSrv4Demo.Api", IdentityServerConstants.LocalApi.ScopeName }
                 },
                 #endregion
                         
                 #region Implicit
-                //new Client
-                //{
-                //    ClientId = "mvc",
-                //    ClientName = "MVC Client",
-                //    AllowedGrantTypes = GrantTypes.Implicit,
-
-                //    // where to redirect to after login
-                //    RedirectUris = { "https://localhost:5002/signin-oidc" },
-
-                //    // where to redirect to after logout
-                //    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
-
-                //    AllowedScopes = new List<string>
-                //    {
-                //        IdentityServerConstants.StandardScopes.OpenId,
-                //        IdentityServerConstants.StandardScopes.Profile
-                //    }
-                //},
-                #endregion
-
-                #region Hybrid
                 new Client
                 {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = GrantTypes.Implicit,
 
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                        
                     // where to redirect to after login
                     RedirectUris = { "https://localhost:5002/signin-oidc" },
 
                     // where to redirect to after logout
                     PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
 
-                    AllowedScopes =
+                    AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "IdSrv4Demo.Api"
-                    },
-                    AllowOfflineAccess = true
+                        CustomIdentityServerConstants.CustomScopes.Role
+                    }
                 },
+                #endregion
+
+                #region Hybrid
+                //new Client
+                //{
+                //    ClientId = "mvc",
+                //    ClientName = "MVC Client",
+                //    AllowedGrantTypes = GrantTypes.Hybrid,
+
+                //    ClientSecrets =
+                //    {
+                //        new Secret("secret".Sha256())
+                //    },
+                        
+                //    // where to redirect to after login
+                //    RedirectUris = { "https://localhost:5002/signin-oidc" },
+
+                //    // where to redirect to after logout
+                //    PostLogoutRedirectUris = { "https://localhost:5002/signout-callback-oidc" },
+
+                //    AllowedScopes =
+                //    {
+                //        IdentityServerConstants.StandardScopes.OpenId,
+                //        IdentityServerConstants.StandardScopes.Profile,
+                //        "IdSrv4Demo.Api"
+                //    },
+                //    AllowOfflineAccess = true
+                //},
                 #endregion
                 
                 #region js
@@ -176,35 +214,89 @@ namespace IdSrv4Demo
 
         public static List<TestUser> GetUsers()
         {
-            return new List<TestUser>
+            return
+            new List<TestUser>
+            {
+                new TestUser{
+                    SubjectId = "1",
+                    Username = "alice",
+                    Password = "alice",
+
+                    Claims =
                     {
-                        new TestUser
-                        {
-                            SubjectId = "1",
-                            Username = "alice",
-                            Password = "alice",
+                        #region OpenId
+                        // 默认必须会带上 JwtClaimTypes.Subject 了，所以不需要再手动添加
+                        #endregion
+                        
+                        #region Profile
+                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Alice"),
+                        new Claim(JwtClaimTypes.MiddleName,"middle_name"),
+                        new Claim(JwtClaimTypes.NickName,"nickname"),
+                        new Claim(JwtClaimTypes.PreferredUserName,"preferred_username"),
+                        new Claim(JwtClaimTypes.Profile,"profile"),
+                        new Claim(JwtClaimTypes.Picture,"picture"),
+                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                        new Claim(JwtClaimTypes.Gender,"gender"),
+                        new Claim(JwtClaimTypes.BirthDate,"birthdate"),
+                        new Claim(JwtClaimTypes.ZoneInfo,"zoneinfo"),
+                        new Claim(JwtClaimTypes.Locale,"locale"),
+                        new Claim(JwtClaimTypes.UpdatedAt,"updated_at"),
+                        #endregion
+                        
+                        #region Email
+                        new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        #endregion
+                        
+                        #region Phone
+                        new Claim(JwtClaimTypes.PhoneNumber, "13838383888"),
+                        new Claim(JwtClaimTypes.PhoneNumberVerified, "true", ClaimValueTypes.Boolean),
+                        #endregion
+                        
+                        #region Address
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServerConstants.ClaimValueTypes.Json),
+                        #endregion
+                        
+                        #region Others Customize
+                        new Claim(JwtClaimTypes.Role,"admin")
+                        #endregion
+                    }
+                },
+                new TestUser{
+                    SubjectId = "2",
+                    Username = "bob",
+                    Password = "bob",
 
-                            Claims = new []
-                            {
-                                new Claim("name", "Alice"),
-                                new Claim("website", "https://alice.com"),
-                                new Claim(JwtClaimTypes.Role,"admin")
-                            }
-                        },
-                        new TestUser
-                        {
-                            SubjectId = "2",
-                            Username = "bob",
-                            Password = "bob",
+                    Claims =
+                    {
+                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Bob"),
+                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
 
-                            Claims = new []
-                            {
-                                new Claim("name", "Bob"),
-                                new Claim("website", "https://bob.com"),
-                                new Claim(JwtClaimTypes.Role,"general")
-                            }
-                        }
-                    };
+                        
+                        #region Email
+                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com", ClaimValueTypes.Email),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        #endregion
+                        
+                        #region Phone
+                        new Claim(JwtClaimTypes.PhoneNumber, "13838383888"),
+                        new Claim(JwtClaimTypes.PhoneNumberVerified, "true", ClaimValueTypes.Boolean),
+                        #endregion
+                        
+                        #region Address
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                        #endregion
+                        
+                        #region Others Customize
+                        new Claim(JwtClaimTypes.Role,"general")
+                        #endregion
+                    }
+                }
+            };
         }
     }
 }

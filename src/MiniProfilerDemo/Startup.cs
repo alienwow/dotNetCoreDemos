@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 using StackExchange.Profiling;
 using StackExchange.Profiling.SqlFormatters;
@@ -59,6 +60,14 @@ namespace MiniProfilerDemo
 
                         options.ClientId = "mvc";
                         options.SaveTokens = true;
+
+                        options.Scope.Add("role");
+
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            NameClaimType = "name",
+                            RoleClaimType = "role"
+                        };
                     });
 
             // MiniProfiler
@@ -108,10 +117,7 @@ namespace MiniProfilerDemo
                 options.PopupRenderPosition = RenderPosition.BottomLeft;
                 options.PopupShowTimeWithChildren = true;
 
-                //options.ResultsAuthorize = request => request.HttpContext.User.IsInRole("admin");
-                // TODO 目前 Implicit 认证模式下无法添加 claim
-                options.ResultsAuthorize = request => request.HttpContext.User.HasClaim("name", "Alice");
-                //.Claims.SingleOrDefault(x => x.Type == "name" && x.Value == "Alices") != null;
+                options.ResultsAuthorize = request => request.HttpContext.User.IsInRole("admin");
                 options.UserIdProvider = request => request.HttpContext.User.Identity.Name;
 
             }).AddEntityFramework();
