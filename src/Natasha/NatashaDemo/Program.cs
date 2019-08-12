@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Natasha;
+using Natasha.Operator;
 
 namespace NatashaDemo
 {
@@ -9,8 +9,22 @@ namespace NatashaDemo
     {
         static async Task Main(string[] args)
         {
-            FirstAction();
-            await FirstAsyncAction();
+            NFuncDemo.NFuncDelegate();
+            await NFuncDemo.NFuncAsyncDelegate();
+
+            NFuncDemo.NFuncUnsafeDelegate();
+            await NFuncDemo.NFuncUnsafeAsyncDelegate();
+
+            NActionDemo.NActionDelegate();
+            NActionDemo.NActionUnsafeDelegate();
+
+            NewStructDemo.NewStructTest();
+
+            NewClassDemo.NewClassTest();
+            NewClassDemo.NewClassStaticCtorTest();
+
+            //FirstAction();
+            //await FirstAsyncAction();
         }
 
         static void FirstAction()
