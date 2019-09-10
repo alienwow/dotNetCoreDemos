@@ -8,7 +8,6 @@ namespace Compare.Comparer
 {
     public static class ComplexComparer
     {
-
         /// <summary>
         /// 绝对相等，即值相等，且不是同一个引用，同为 null 也相等
         /// </summary>
@@ -54,6 +53,18 @@ namespace Compare.Comparer
                     }
                 }
                 return true;
+            }
+            return self == to;
+        }
+
+        public static bool AbsolutelyEqual<T>(IEnumerable<T> self, IEnumerable<T> to, IEqualityComparer<T> comparer)
+        {
+            if (self != null && to != null)
+            {
+                if (self.Count() != to.Count())
+                    return false;
+
+                return false;
             }
             return self == to;
         }

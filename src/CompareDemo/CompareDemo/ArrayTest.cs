@@ -8,11 +8,119 @@ namespace CompareDemo
 {
     public class ArrayTest
     {
-        /// <summary>
-        /// 1维度+简单: int[]
-        /// </summary>
+
         [Fact]
-        public void Clone1DimWithSimple()
+        public void ComplexTypeArray()
+        {
+            var array1 = new Member[]{
+                            new Member()
+                            {
+                                MemberType = MemberType.Teacher,
+                                FirstName = "FirstName",
+                                MiddleName = "MiddleName",
+                                LastName = "LastName",
+                                Age = 40,
+                                Birthday = null,
+                                AnnualIncome = 400000.00M,
+                                Teacher = null
+                            },
+                            new Member()
+                            {
+                                MemberType = MemberType.Teacher,
+                                FirstName = "FirstName",
+                                MiddleName = "MiddleName",
+                                LastName = "LastName",
+                                Age = 40,
+                                Birthday = null,
+                                AnnualIncome = 400000.00M,
+                                Teacher = null
+                            }
+                        };
+            var array2 = new Member[]{
+                            new Member()
+                            {
+                                MemberType = MemberType.Teacher,
+                                FirstName = "FirstName",
+                                MiddleName = "MiddleName",
+                                LastName = "LastName",
+                                Age = 40,
+                                Birthday = null,
+                                AnnualIncome = 400000.00M,
+                                Teacher = null
+                            },
+                            new Member()
+                            {
+                                MemberType = MemberType.Teacher,
+                                FirstName = "FirstName",
+                                MiddleName = "MiddleName",
+                                LastName = "LastName",
+                                Age = 40,
+                                Birthday = null,
+                                AnnualIncome = 400000.00M,
+                                Teacher = null
+                            }
+                        };
+            var array11 = new Member[][]{
+                            new Member[]{
+                                new Member()
+                                {
+                                    MemberType = MemberType.Teacher,
+                                    FirstName = "FirstName",
+                                    MiddleName = "MiddleName",
+                                    LastName = "LastName",
+                                    Age = 40,
+                                    Birthday = null,
+                                    AnnualIncome = 400000.00M,
+                                    Teacher = null
+                                },
+                                new Member()
+                                {
+                                    MemberType = MemberType.Teacher,
+                                    FirstName = "FirstName",
+                                    MiddleName = "MiddleName",
+                                    LastName = "LastName",
+                                    Age = 40,
+                                    Birthday = null,
+                                    AnnualIncome = 400000.00M,
+                                    Teacher = null
+                                }
+                            }
+                        };
+            var array22 = new Member[][]{
+                            new Member[]{
+                                new Member()
+                                {
+                                    MemberType = MemberType.Teacher,
+                                    FirstName = "FirstName",
+                                    MiddleName = "MiddleName",
+                                    LastName = "LastName",
+                                    Age = 40,
+                                    Birthday = null,
+                                    AnnualIncome = 400000.00M,
+                                    Teacher = null
+                                },
+                                new Member()
+                                {
+                                    MemberType = MemberType.Teacher,
+                                    FirstName = "FirstName",
+                                    MiddleName = "MiddleName",
+                                    LastName = "LastName",
+                                    Age = 40,
+                                    Birthday = null,
+                                    AnnualIncome = 400000.00M,
+                                    Teacher = null
+                                }
+                            }
+                        };
+            Assert.Equal(array1, array2, new MemberEqualityComparer());
+            Assert.NotEqual(array1, array1, new MemberEqualityComparer());
+            Assert.Equal(array11, array22, new Member1JaggedArrayEqualityComparer());
+            // Assert.Equal(array11, array22, new MemberEqualityComparer());
+            // Assert.NotEqual(array11, array11, new MemberEqualityComparer());
+        }
+
+        [Fact]
+        public void ComplexType()
         {
             var teacher1 = new Member()
             {
@@ -89,6 +197,9 @@ namespace CompareDemo
 
             Assert.True(student1.AbsolutelyEqual(student3, "Id"));
             Assert.Equal(student1, student3, new MemberEqualityComparer());
+
+            Assert.True(student2.AbsolutelyEqual(student3, "Id"));
+            Assert.Equal(student2, student3, new MemberEqualityComparer());
 
             Assert.False(student3.AbsolutelyEqual(student4, "Id"));
             Assert.NotEqual(student3, student4, new MemberEqualityComparer());
