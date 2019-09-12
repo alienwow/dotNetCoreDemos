@@ -14,6 +14,37 @@
       "cwd": "${workspaceFolder}/src/Natasha/NatashaDemo/",
       "stopAtEntry": false,
       "console": "internalConsole"
+    },
+    {
+      "name": ".NET Core Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "IdSrv4.IdSrv4Demo",
+      "program": "${workspaceFolder}/src/IdSrv4/IdSrv4Demo/bin/Debug/netcoreapp2.2/IdSrv4Demo.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/IdSrv4/IdSrv4Demo",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "launchBrowser": {
+        "enabled": true,
+        "args": "${auto-detect-url}",
+        "windows": {
+          "command": "cmd.exe",
+          "args": "/C start ${auto-detect-url}"
+        },
+        "osx": {
+          "command": "open"
+        },
+        "linux": {
+          "command": "xdg-open"
+        }
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
     }
   ]
 }

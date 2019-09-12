@@ -6,7 +6,6 @@
     {
       "label": "NatashaDemoBuild",
       "command": "dotnet",
-      // "command": "dotnet build",
       "type": "shell",
       "group": "build",
       "presentation": {
@@ -15,6 +14,20 @@
       "args": [
         "build",
         "${workspaceFolder}/src/Natasha/NatashaDemo/NatashaDemo.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "IdSrv4.IdSrv4Demo",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/IdSrv4/IdSrv4Demo/IdSrv4Demo.csproj"
       ],
       "problemMatcher": "$msCompile"
     }
