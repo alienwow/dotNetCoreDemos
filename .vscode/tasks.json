@@ -4,6 +4,20 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "ExpressionTreeDemo01Build",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/ExpressionTreeDemos/ExpressionTreeDemo01/ExpressionTreeDemo01.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "NatashaDemoBuild",
       "command": "dotnet",
       "type": "shell",
@@ -28,6 +42,48 @@
       "args": [
         "build",
         "${workspaceFolder}/src/IdSrv4/IdSrv4Demo/IdSrv4Demo.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Auth.CookieAuth",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/AuthDemo/CookieAuth/CookieAuth.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Auth.JwtAuth",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/AuthDemo/JwtAuth/JwtAuth.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Auth.CookieWithJwtAuth",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/AuthDemo/CookieWithJwtAuth/CookieWithJwtAuth.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

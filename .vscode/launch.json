@@ -5,7 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": ".NET Core Launch (console)",
+      "name": ".NET Core Launch (ExpressionTreeDemos)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "ExpressionTreeDemo01Build",
+      "program": "${workspaceFolder}/src/ExpressionTreeDemos/ExpressionTreeDemo01/bin/Debug/netcoreapp3.0/ExpressionTreeDemo01.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/ExpressionTreeDemos/ExpressionTreeDemo01/",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": ".NET Core Launch (NatashaDemo)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "NatashaDemoBuild",
@@ -16,13 +27,106 @@
       "console": "internalConsole"
     },
     {
-      "name": ".NET Core Launch (web)",
+      "name": ".NET Core Launch (IdSrv4.IdSrv4Demo)",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "IdSrv4.IdSrv4Demo",
       "program": "${workspaceFolder}/src/IdSrv4/IdSrv4Demo/bin/Debug/netcoreapp2.2/IdSrv4Demo.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/IdSrv4/IdSrv4Demo",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "launchBrowser": {
+        "enabled": true,
+        "args": "${auto-detect-url}",
+        "windows": {
+          "command": "cmd.exe",
+          "args": "/C start ${auto-detect-url}"
+        },
+        "osx": {
+          "command": "open"
+        },
+        "linux": {
+          "command": "xdg-open"
+        }
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": ".NET Core Launch (Auth.CookieAuth)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Auth.CookieAuth",
+      "program": "${workspaceFolder}/src/AuthDemo/CookieAuth/bin/Debug/netcoreapp2.2/CookieAuth.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/AuthDemo/CookieAuth",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "launchBrowser": {
+        "enabled": true,
+        "args": "${auto-detect-url}",
+        "windows": {
+          "command": "cmd.exe",
+          "args": "/C start ${auto-detect-url}"
+        },
+        "osx": {
+          "command": "open"
+        },
+        "linux": {
+          "command": "xdg-open"
+        }
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": ".NET Core Launch (Auth.JwtAuth)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Auth.JwtAuth",
+      "program": "${workspaceFolder}/src/AuthDemo/JwtAuth/bin/Debug/netcoreapp2.2/JwtAuth.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/AuthDemo/JwtAuth",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart",
+      "launchBrowser": {
+        "enabled": true,
+        "args": "${auto-detect-url}",
+        "windows": {
+          "command": "cmd.exe",
+          "args": "/C start ${auto-detect-url}"
+        },
+        "osx": {
+          "command": "open"
+        },
+        "linux": {
+          "command": "xdg-open"
+        }
+      },
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}/Views"
+      }
+    },
+    {
+      "name": ".NET Core Launch (Auth.CookieWithJwtAuth)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Auth.CookieWithJwtAuth",
+      "program": "${workspaceFolder}/src/AuthDemo/CookieWithJwtAuth/bin/Debug/netcoreapp2.2/CookieWithJwtAuth.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/AuthDemo/CookieWithJwtAuth",
       "stopAtEntry": false,
       "internalConsoleOptions": "openOnSessionStart",
       "launchBrowser": {
