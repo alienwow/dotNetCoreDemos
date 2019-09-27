@@ -1,0 +1,29 @@
+@model System.Security.Claims.ClaimsPrincipal;
+
+@{
+    ViewData["Title"] = "Account Profile";
+    var columns = new string[] { "Claim Type", "Value" };
+    var data = Model.Claims.Select(c => new string[] { c.Type, c.Value });
+}
+<h2>AuthenticationType：@Model.Identity.AuthenticationType</h2>
+
+<h2>Claims:</h2>
+<table class="table table-condensed">
+<tr>
+    @foreach (var column in columns)
+    {
+        <th>@column</th>
+    }
+</tr>
+@foreach (var row in data)
+{
+    <tr>
+    @foreach (var column in row)
+    {
+        <td>@column</td>
+    }
+    </tr>
+}
+</table>
+
+<p>@ViewData["cookieData"]</p>

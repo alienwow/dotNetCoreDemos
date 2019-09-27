@@ -1,0 +1,31 @@
+IdS4 Cookie Auth Login:
+
+AccountController:
+    -> await HttpContext.SignInAsync
+
+IdentityServer4:
+    -> AuthenticationManagerExtensions.SignInAsync
+
+AspNetCore:
+    -> AuthenticationHttpContextExtensions.SignInAsync
+    -> AuthenticationService.SignInAsync
+    -> CookieAuthenticationHandler -> SignInAuthenticationHandler<TOptions>.SignInAsync
+    -> CookieAuthenticationHandler.HandleSignInAsync
+
+    
+AspNetCore:
+    -> AuthAppBuilderExtensions.UseAuthentication
+    -> AuthenticationMiddleware.Invoke
+    -> AuthenticationHttpContextExtensions.AuthenticateAsync
+    -> AuthenticationService.AuthenticateAsync
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    -> 
+    
