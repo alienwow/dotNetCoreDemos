@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Natasha;
 
-namespace NatashaWebDemo
+namespace NatashaWeb3._1Demo
 {
     public class Startup
     {
@@ -28,40 +28,43 @@ namespace NatashaWebDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .ConfigureApplicationPartManager(appManager =>
-                {
-                    // var domain = NDomain.Create(DomainManagment.CurrentDomain);
-                    // var type1 = domain.GetType(ControllerTest0);
-                    // var type2 = domain.GetType(ControllerTest1);
 
-                    AssemblyComplier oop = new AssemblyComplier();
-                    oop.Add(ControllerTest0);
-                    Type type1 = oop.GetType("TestController");
+            services.AddControllers()
+            .ConfigureApplicationPartManager(appManager =>
+            {
+                // var domain = NDomain.Create(DomainManagment.CurrentDomain);
+                // var type1 = domain.GetType(ControllerTest0);
+                // var type2 = domain.GetType(ControllerTest1);
+                
+                AssemblyComplier oop = new AssemblyComplier();
+                oop.Add(ControllerTest0);
+                Type type1 = oop.GetType("TestController");
 
-                    var feature = new ControllerFeature();
-                    appManager.ApplicationParts.Add(new AssemblyPart(type1.Assembly));
-                    //appManager.ApplicationParts.Add(new AssemblyPart(type2.Assembly));
-                    appManager.PopulateFeature(feature);
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                var feature = new ControllerFeature();
+                appManager.ApplicationParts.Add(new AssemblyPart(type1.Assembly));
+                //appManager.ApplicationParts.Add(new AssemblyPart(type2.Assembly));
+                appManager.PopulateFeature(feature);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
 
         private readonly string ControllerTest0 = @"

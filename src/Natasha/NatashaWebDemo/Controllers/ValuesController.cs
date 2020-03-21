@@ -23,16 +23,7 @@ namespace NatashaWebDemo.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> Get(int id)
         {
-            var action = FastMethodOperator.New
-                            .UseAsync()
-                            .Param<string>("str1")
-                            .Param(typeof(string), "str2")
-                            .MethodBody("return str1+str2;")
-                            .Return<Task<string>>()
-                            .Complie<Func<string, string, Task<string>>>();
-
-            var result = await action("Hello ", $"`{id}` Async World!");
-            return result;
+            return id.ToString();
         }
 
         // POST api/values
