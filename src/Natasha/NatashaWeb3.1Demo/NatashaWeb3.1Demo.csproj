@@ -8,6 +8,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DotNetCore.Natasha" Version="2.14.0" />
+    <PackageReference Include="DotNetCore.Natasha" Version="3.0.0" />
+    <PackageReference Include="DotNetCore.Natasha.Core" Version="2.9.0" />
   </ItemGroup>
 </Project>

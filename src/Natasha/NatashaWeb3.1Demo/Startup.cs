@@ -32,17 +32,12 @@ namespace NatashaWeb3._1Demo
             services.AddControllers()
             .ConfigureApplicationPartManager(appManager =>
             {
-                // var domain = NDomain.Create(DomainManagment.CurrentDomain);
-                // var type1 = domain.GetType(ControllerTest0);
-                // var type2 = domain.GetType(ControllerTest1);
-                
                 AssemblyComplier oop = new AssemblyComplier();
                 oop.Add(ControllerTest0);
-                Type type1 = oop.GetType("TestController");
+                oop.Add(ControllerTest1);
 
                 var feature = new ControllerFeature();
-                appManager.ApplicationParts.Add(new AssemblyPart(type1.Assembly));
-                //appManager.ApplicationParts.Add(new AssemblyPart(type2.Assembly));
+                appManager.ApplicationParts.Add(new AssemblyPart(oop.GetAssembly()));
                 appManager.PopulateFeature(feature);
             });
         }

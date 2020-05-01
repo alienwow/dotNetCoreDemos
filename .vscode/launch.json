@@ -5,6 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": ".NET Core Launch (WebHostBuilderDemos)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "WebHostBuilderDemosBuild",
+      "program": "${workspaceFolder}/src/WebHostDemos/WebHostBuilderDemos/bin/Debug/netcoreapp3.1/WebHostBuilderDemos.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/WebHostDemos/WebHostBuilderDemos/",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
       "name": ".NET Core Launch (ExpressionTreeDemos)",
       "type": "coreclr",
       "request": "launch",
@@ -23,6 +34,17 @@
       "program": "${workspaceFolder}/src/Natasha/NatashaDemo/bin/Debug/netcoreapp3.0/NatashaDemo.dll",
       "args": [],
       "cwd": "${workspaceFolder}/src/Natasha/NatashaDemo/",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": ".NET Core Launch (NatashaMvc2.2Demo)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "NatashaMvc2.2DemoBuild",
+      "program": "${workspaceFolder}/src/Natasha/NatashaMvc2.2Demo/bin/Debug/netcoreapp2.2/NatashaMvc2.2Demo.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/Natasha/NatashaMvc2.2Demo/",
       "stopAtEntry": false,
       "console": "internalConsole"
     },

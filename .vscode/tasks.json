@@ -4,6 +4,20 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "WebHostBuilderDemosBuild",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/WebHostDemos/WebHostBuilderDemos/WebHostBuilderDemos.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "ExpressionTreeDemo01Build",
       "command": "dotnet",
       "type": "shell",
@@ -28,6 +42,20 @@
       "args": [
         "build",
         "${workspaceFolder}/src/Natasha/NatashaDemo/NatashaDemo.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "NatashaMvc2.2DemoBuild",
+      "command": "dotnet",
+      "type": "shell",
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}/src/Natasha/NatashaMvc2.2Demo/NatashaMvc2.2Demo.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
